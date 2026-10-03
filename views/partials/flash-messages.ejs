@@ -1,0 +1,71 @@
+<% if (locals.success && success.length > 0) { %>
+    <% success.forEach(function(message) { %>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Success!</strong> <%= message %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <% }); %>
+<% } %>
+
+<% if (locals.error && error.length > 0) { %>
+    <% error.forEach(function(message) { %>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Error!</strong> <%= message %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <% }); %>
+<% } %>
+
+<% if (locals.warning && warning.length > 0) { %>
+    <% warning.forEach(function(message) { %>
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>Warning!</strong> <%= message %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <% }); %>
+<% } %>
+
+<% if (locals.info && info.length > 0) { %>
+    <% info.forEach(function(message) { %>
+        <div class="alert alert-info alert-dismissible fade show" role="alert">
+            <strong>Info!</strong> <%= message %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <% }); %>
+<% } %>
+
+<style>
+    .alert {
+        margin-top: 10px;
+        margin-bottom: 10px;
+        animation: slideDown 0.3s ease-out;
+    }
+    
+    @keyframes slideDown {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .alert-dismissible .btn-close {
+        padding: 0.75rem 1.25rem;
+    }
+</style>
+
+<script>
+    // Auto-dismiss alerts after 5 seconds
+    document.addEventListener('DOMContentLoaded', function() {
+        const alerts = document.querySelectorAll('.alert');
+        alerts.forEach(function(alert) {
+            setTimeout(function() {
+                const bsAlert = new bootstrap.Alert(alert);
+                bsAlert.close();
+            }, 5000);
+        });
+    });
+</script>

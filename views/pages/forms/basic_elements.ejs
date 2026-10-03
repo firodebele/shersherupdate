@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Tour Packages</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 20px;
+            background: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #444;
+        }
+
+        p {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        /* Table Styles */
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .table th,
+        .table td {
+            padding: 10px 15px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        .table th {
+            background-color: #f4f4f4;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .table tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .table td {
+            color: #555;
+        }
+
+        .toggle-icon {
+            cursor: pointer;
+            color: #007bff;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        .description {
+            display: none;
+            color: #666;
+            margin-top: 10px;
+        }
+
+        .no-data {
+            text-align: center;
+            color: #888;
+            font-style: italic;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Admin Panel - Tour Packages</h1>
+        <p>Below is the list of all tour packages.</p>
+
+        <!-- Display Tour Packages -->
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Package Name</th>
+                    <th>City</th>
+                    <th>Country</th>
+                    <th>Created By (User ID)</th>
+                    <th>User Name</th>
+                    <th>Email</th>
+                    <th>Description</th>
+                    <th>Price per Night</th>
+                    <th>Star Rating</th>
+                    <th>Images</th> 
+                </tr>
+            </thead>
+            <tbody>
+                <% if (tourPackages.length > 0) { %>
+                    <% tourPackages.forEach((package, index) => { %>
+                        <tr>
+                            <td><%= package.name %></td>
+                            <td><%= package.city %></td>
+                            <td><%= package.country %></td>
+                            <td><%= package.userId ? package.userId._id : 'N/A' %></td>
+                            <td><%= package.userId ? package.userId.firstName + ' ' + package.userId.lastName : 'N/A' %></td>
+                            <td><%= package.userId ? package.userId.email : 'N/A' %></td>
+                            <td>
+                                <span class="toggle-icon" onclick="toggleDescription('<%= index %>')">+</span>
+                                <span class="description" id="description-<%= index %>"><%= package.description %></span>
+                            </td>
+                            <td><%= package.pricePerNight %></td>
+                            <td><%= package.starRating %></td>
+                            <td>
+                                <% if (package.imageUrls && package.imageUrls.length > 0) { %>
+                                    <% package.imageUrls.forEach(imageUrl => { %>
+                                        <img src="<%= imageUrl %>" alt="Package Image" style="width: 100px; height: auto; margin: 5px;">
+                                    <% }) %>
+                                <% } else { %>
+                                    No images available
+                                <% } %>
+                            </td>
+                        </tr>
+                    <% }) %>
+                <% } else { %>
+                    <tr>
+                        <td colspan="9" class="no-data">No tour packages found.</td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function toggleDescription(index) {
+            const description = document.getElementById(`description-${index}`);
+            const toggleIcon = description.previousElementSibling;
+
+            if (description.style.display === 'none' || !description.style.display) {
+                description.style.display = 'inline';
+                toggleIcon.textContent = '-';
+            } else {
+                description.style.display = 'none';
+                toggleIcon.textContent = '+';
+            }
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,53 @@
+<div class="container">
+  <h1>Users</h1>
+
+  <!-- Role Filter Dropdown -->
+  <form method="GET" action="/users">
+      <label for="role">Filter by Role:</label>
+      <select name="role" id="role" onchange="this.form.submit()">
+          <option value="">All Users</option>
+          <option value="visitor" <%= role === 'visitor' ? 'selected' : '' %>>Visitor</option>
+          <option value="tour-company" <%= role === 'tour-company' ? 'selected' : '' %>>Tour Company</option>
+      </select>
+  </form>
+
+  <!-- Display Users Based on Role -->
+  <h2>Users List</h2>
+  <table class="table">
+      <thead>
+          <tr>
+              <th>User ID</th>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Actions</th> <!-- Action Column for Delete -->
+          </tr>
+      </thead>
+      <tbody>
+          <% if (users && users.length > 0) { %>
+              <% users.forEach(user => { %>
+                  <tr>
+                      <td><%= user._id %></td>
+                      <td><%= user.firstName %></td>
+                      <td><%= user.lastName %></td>
+                      <td><%= user.email %></td>
+                      <td><%= user.role %></td> <!-- Display the user's role -->
+                      <td>
+                          <!-- Delete user button -->
+                          <form action="/delete-user/<%= user._id %>" method="POST" style="display:inline;">
+                            <button type="submit">Delete</button>
+                          </form>
+                      </td>
+                  </tr>
+              <% }) %>
+          <% } else { %>
+              <tr>
+                  <td colspan="6" class="no-data">No users found.</td>
+              </tr>
+          <% } %>
+      </tbody>
+  </table>
+</div>
+
+
